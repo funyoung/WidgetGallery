@@ -20,9 +20,6 @@ import com.funyoung.widgetgallery.dummy.DummyContent;
 public class BenchMarchActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String USING_FLAG = "USING_FLAG";
 
-    private int itemW;
-    private int itemH;
-
     public static void start(Activity activity, boolean useScrollView) {
         Intent intent = new Intent(activity, BenchMarchActivity.class);
         intent.putExtra(USING_FLAG, useScrollView);
@@ -32,9 +29,6 @@ public class BenchMarchActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        itemW = getResources().getDimensionPixelSize(R.dimen.item_view_width);
-        itemH = (int) (itemW * 0.6);
 
         boolean usingScrollView = getIntent().getBooleanExtra(USING_FLAG, false);
         if (usingScrollView) {
@@ -64,10 +58,12 @@ public class BenchMarchActivity extends AppCompatActivity implements View.OnClic
             mLayout.removeAllViews();
         }
 
+        int itemW = getResources().getDimensionPixelSize(R.dimen.item_view_width);
+        int itemH = (int) (itemW * 0.6);
+
         int layoutW = itemW;
         int layoutH = 0;
 
-        Context context = getApplicationContext();
         for (int i = 0; i < DummyContent.ITEMS.size(); i++) {
             DummyContent.DummyItem item = DummyContent.ITEMS.get(i);
             if (item == null) {
@@ -102,7 +98,7 @@ public class BenchMarchActivity extends AppCompatActivity implements View.OnClic
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         parent.setLayoutManager(layoutManager);
-        parent.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS, false));
+        parent.setAdapter(new SimpleItemRecyclerViewAdapter(this, false));
     }
 
     private void setBackground(ViewGroup parent) {

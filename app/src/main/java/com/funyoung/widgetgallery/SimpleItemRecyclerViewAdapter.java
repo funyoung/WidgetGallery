@@ -15,6 +15,9 @@ public class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
     private final boolean mTwoPane;
+    private int itemW;
+    private int itemH;
+
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -25,9 +28,12 @@ public class SimpleItemRecyclerViewAdapter
         }
     };
 
-    SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items,
-                                  boolean twoPane) {
+    SimpleItemRecyclerViewAdapter(Context context, boolean twoPane) {
         mTwoPane = twoPane;
+
+        itemW = context.getResources().getDimensionPixelSize(R.dimen.item_view_width);
+        itemH = (int) (itemW * 0.6);
+
     }
 
     @Override
@@ -35,6 +41,7 @@ public class SimpleItemRecyclerViewAdapter
         Context context = parent.getContext();
         Drawable bg = ItemUtil.loadBackgroundDrawable(context);
         TextView view = ItemUtil.createCellView(context, bg);
+        view.setLayoutParams(new ViewGroup.LayoutParams(itemW, itemH));
         return new ViewHolder(view);
     }
 
